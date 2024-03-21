@@ -5,6 +5,7 @@ const progressElement = document.getElementById('progress');
 
 let currentQuestion = 0;
 let score = 0;
+const totalQuestions = gameData.length;
 
 function showQuestion() {
   const question = gameData[currentQuestion];
@@ -17,7 +18,7 @@ function showQuestion() {
     button.addEventListener('click', selectAnswer);
     choicesElement.appendChild(button);
   });
-  progressElement.textContent = `Question ${currentQuestion + 1} of ${gameData.length}`;
+  progressElement.textContent = `Question ${currentQuestion + 1} of ${totalQuestions}`;
 }
 
 function selectAnswer(event) {
@@ -27,7 +28,7 @@ function selectAnswer(event) {
     score++;
   }
   currentQuestion++;
-  if (currentQuestion < gameData.length) {
+  if (currentQuestion < totalQuestions) {
     showQuestion();
   } else {
     showResult();
@@ -35,9 +36,9 @@ function selectAnswer(event) {
 }
 
 function showResult() {
-  questionElement.textContent = '游戏结束!';
-  choicesElement.innerHTML = `你的得分是 ${score} out of ${gameData.length}`;
-  progressElement.textContent = '';
+  localStorage.setItem('score', score);
+  localStorage.setItem('totalQuestions', totalQuestions);
+  window.location.href = 'end.html';
 }
 
 showQuestion();
